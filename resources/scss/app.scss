@@ -45,3 +45,21 @@ section.hero{
     row-gap: 16px;
     column-gap: 12px;
 }
+
+section.cart{
+    background-color: $secondary;
+    .amount{
+        color: $primary;
+    }
+}
+section.login{
+    background-color: $secondary;
+    transition:$smooth;
+    min-height: calc(100vh - 86px);
+    a{
+        color: $primary;
+        &:hover{
+            color:$dark;
+        }
+    }
+}
