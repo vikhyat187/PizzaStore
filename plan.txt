@@ -60,3 +60,8 @@ we can also use various things like webpack or parcel.js but we require to do so
 
 Errors encountered
 The first error was getting the css after using laravel-mix to compile the css files due to response from browser as html
+
+The controllers should be placed in diff files.
+Controller means the logic for the validation or anything 
+its a factory function
+in web.js we are calling the controllers object's index method which will be having the params req and res passed.
