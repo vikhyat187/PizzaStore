@@ -55,3 +55,8 @@ config : authentication
 http : controllers and middlewares
 web.js : routes related to web
 api.js : routes related to api
+laravel-mix : it is used to compile and store files into public Folder
+we can also use various things like webpack or parcel.js but we require to do some configuration in it
+
+Errors encountered
+The first error was getting the css after using laravel-mix to compile the css files due to response from browser as html
