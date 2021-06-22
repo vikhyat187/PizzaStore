@@ -65,3 +65,5 @@ The controllers should be placed in diff files.
 Controller means the logic for the validation or anything 
 its a factory function
 in web.js we are calling the controllers object's index method which will be having the params req and res passed.
+
+connect mongo used to store the sessions in the database.
