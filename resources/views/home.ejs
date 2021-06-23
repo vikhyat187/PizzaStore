@@ -4,7 +4,7 @@
             <!-- first small h6 heading -->
             <h6 class="text-lg"><em>Are you hungry?</em></h6>
             <h1 class="text-6xl font-bold mb-4">Don't Wait !</h1>
-            <button class="add-to-cart py-1 px-6 rounded-full">Order Now</button>
+            <button class="btn-primary py-1 px-6 rounded-full">Order Now</button>
         </div>
         <div class="w-1/2">
             <img src="/img/hero-pizza.png" alt="pizza image">
@@ -23,7 +23,7 @@
                     <span class="size py-1 px-4 rounded-full text-xs uppercase"><%=pizza.size%></span>
                     <div class="flex justify-around items-center mt-4">
                         <span class="font-bold text-lg">₹<%=pizza.price%></span>
-                        <button class="add-to-cart py-1 px-6 rounded-full flex items-center">
+                        <button data-pizza="<%=JSON.stringify(pizza)%>"class="add-to-cart py-1 px-6 rounded-full flex items-center">
                             <span>+</span>
                             <span class="ml-4">Add</span>
                         </button>

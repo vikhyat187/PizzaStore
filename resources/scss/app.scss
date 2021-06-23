@@ -1,5 +1,6 @@
 @import './variables';
-
+@import '~noty/src/noty.scss';
+@import '~noty/src/themes/relax.scss';
 body{
     font-family: 'Lato',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -40,6 +41,18 @@ section.hero{
         background:$primary;
         border-color: $pure;
     }
+    &:focus{
+        outline: none;
+    }
+}
+.btn-primary{
+    background: $primary;
+    transition: $smooth;
+    border: 2px solid $primary;
+    &:hover{
+       background: $primary-hover;
+       color: $pure;
+    }
 }
 #grid-container{
     row-gap: 16px;
@@ -62,4 +75,8 @@ section.login{
             color:$dark;
         }
     }
+}
+.noty_theme__relax{
+    border-radius: 50px !important;
+    padding-left: 8px !important;
 }

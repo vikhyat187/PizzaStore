@@ -8,11 +8,10 @@ const initRoutes = require('./routes/web');
 const mongoose= require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
-const MongoDbStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 
 //Database connection
-const url = 'mongodb://localhost/pizza';
-mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true,useCreateIndex:true,useFindAndModify:true});
+mongoose.connect(process.env.MONGO_CONNECTION_URL,{useNewUrlParser:true,useUnifiedTopology:true,useCreateIndex:true,useFindAndModify:true});
 const connection = mongoose.connection;
 connection.once('open',()=>{
     console.log("database connected");
@@ -20,31 +19,33 @@ connection.once('open',()=>{
     console.log("connection failed");
 });
 
-// session store
-// let mongoStore =new MongoDbStore({//class or constructor fn
-//     mongooseConnection : connection,
-//     collection : 'sessions',
-// })
-
 //session config
 // session acts as middleware so we have to set it
 app.use(session({
     secret  : process.env.COOKIE_SECRET,
     resave : false,
-    store : new MongoDbStore({
-        mongooseConnection:connection,
-        collectionName:'sessions'
+    store : MongoStore.create({
+        // mongoUrl:process.env.MONGO_CONNECTION_URL,
+        client:connection.getClient(),//using a existing session
     }),
     saveUninitialized : false,
     cookie : { maxAge :1000 * 60 * 60 * 24}//24 hours
+    // cookie : { maxAge :1000 * 15}//15 sec
 }))
 
 app.use(flash());
+app.use(express.json());
 
 //setting the static folder( The static is a middleware)
 app.use(express.static(process.cwd() + '/public/'));
 // process.cwd() returns the current working directory
 // __dirname return the directory name of the directory containing the JS source code file
+
+//setting a global middleware to expose the session to the front-end
+app.use((req,res,next)=>{
+    res.locals.session = req.session;
+    next();//if its not present the loading will not be stopped
+})
 
 //setting template engine
 app.use(expressLayout);
