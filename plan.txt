@@ -68,3 +68,8 @@ in web.js we are calling the controllers object's index method which will be hav
 
 connect mongo used to store the sessions in the database.
 we cannot pass object directly in data attribute so we are converting to JSON and then to string and passing and in JS we are getting back that value.
+
+flash messages are only for single requests.
+
+Place the passport.session() initialisation after the session because nodejs excecutes from top to bottom and couldn't find the user as session are set after it.
+Href is used to make cursor pointer in Logout anchor tag

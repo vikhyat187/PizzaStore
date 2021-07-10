@@ -9,6 +9,8 @@ const mongoose= require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
 const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const { urlencoded } = require('express');//used to read data which comes encoded in the url
 
 //Database connection
 mongoose.connect(process.env.MONGO_CONNECTION_URL,{useNewUrlParser:true,useUnifiedTopology:true,useCreateIndex:true,useFindAndModify:true});
@@ -18,6 +20,7 @@ connection.once('open',()=>{
 }).catch(err=>{
     console.log("connection failed");
 });
+
 
 //session config
 // session acts as middleware so we have to set it
@@ -32,9 +35,16 @@ app.use(session({
     cookie : { maxAge :1000 * 60 * 60 * 24}//24 hours
     // cookie : { maxAge :1000 * 15}//15 sec
 }))
+//passport to be configured after session config, so that passport can find the session
+//passport config
+const passportInit = require('./app/config/passport')
+passportInit(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 //setting the static folder( The static is a middleware)
 app.use(express.static(process.cwd() + '/public/'));
@@ -44,6 +54,7 @@ app.use(express.static(process.cwd() + '/public/'));
 //setting a global middleware to expose the session to the front-end
 app.use((req,res,next)=>{
     res.locals.session = req.session;
+    res.locals.user= req.user;
     next();//if its not present the loading will not be stopped
 })
 
