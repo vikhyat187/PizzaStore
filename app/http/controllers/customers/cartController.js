@@ -44,8 +44,8 @@ function cartController(){
                 cart.items[req.body._id].qty +=1;
             }
             return res.json({ totalQty : req.session.cart.totalQty })
-        }
-    };
+        },
+        };
 }
 
 module.exports = cartController;

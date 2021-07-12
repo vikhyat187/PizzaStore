@@ -9,3 +9,9 @@
 [Middleware](https://expressjs.com/en/guide/writing-middleware.html)
 
 [Logout.passport](http://www.passportjs.org/docs/logout/)
+
+[req.locals](https://www.geeksforgeeks.org/express-js-res-locals-property/#:~:text=locals%20property%20is%20an%20object,Syntax%3A%20res.locals)
+
+[Joining two tables in Mongodb](https://kb.objectrocket.com/mongo-db/how-to-join-collections-using-mongoose-228)
+
+[Mongoose schema types](https://mongoosejs.com/docs/schematypes.html)
