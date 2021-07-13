@@ -1,6 +1,6 @@
 @import './variables';
 @import '~noty/src/noty.scss';
-@import '~noty/src/themes/mint.scss';
+@import '~noty/src/themes/relax.scss';
 
 body {
     font-family: 'Lato', sans-serif;
@@ -66,11 +66,14 @@ section.login {
         }
     }
 }
-.noty_theme__mint {
+.noty_theme__relax {
     border-radius: 50px!important;
     padding-left: 8px!important;
 }
 
-a.link {
-    color: $primary;
+
+
+#grid-container{
+    row-gap: 16px;
+    column-gap: 12px;
 }

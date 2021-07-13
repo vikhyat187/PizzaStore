@@ -15,3 +15,13 @@
 [Joining two tables in Mongodb](https://kb.objectrocket.com/mongo-db/how-to-join-collections-using-mongoose-228)
 
 [Mongoose schema types](https://mongoosejs.com/docs/schematypes.html)
+
+[Sorting in mongoose](https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose)
+
+[Intro to mongoose](https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/)
+
+[Operators in mongoose](https://docs.mongodb.com/manual/reference/operator/query/ne/#:~:text=%24ne%20selects%20the%20documents%20where,do%20not%20contain%20the%20field%20.&text=As%20a%20result%2C%20in%20many,See%20also%20Query%20Selectivity.)
+
+[Gettings all data from a diff collection](https://stackoverflow.com/questions/29078753/how-to-reference-another-schema-in-my-mongoose-schema)
+
+[mongoose queries](https://mongoosejs.com/docs/queries.html)
