@@ -32,7 +32,7 @@ function authController() {
                         return next(err)
                     }
 
-                    return res.redirect('/')
+                    return res.redirect(_getRedirectUrl(req))
                 })
             })(req, res, next)
         },

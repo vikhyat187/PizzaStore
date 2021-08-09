@@ -5,9 +5,12 @@ function orderController(){
        async index(req,res){
            const orders= await Order.find({'status':{ $ne: 'completed'}},null,
            {sort:{'createdAt':"desc"}}).populate('customerId','-password').exec((err,orders)=>{
-                res.render('admin/orders',{orders:orders});
+                if (req.xhr){
+                    return res.json(orders);
+                }
+                return res.render('admin/orders');
            });
-           console.log(orders);
+
         }
     }
 }

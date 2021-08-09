@@ -28,6 +28,7 @@ function orderController(){
             const orders = await Order.find({customerId : req.user._id},
                 null,
                 {sort: {'createdAt':"desc"}})
+            res.header('Cache-Control','no-cache,private,no-store,must-revalidate,max-stale=0,post-check=0,pre-check=0');
             res.render('customer/orders',{orders:orders,moment:moment});
             console.log(orders);
         }

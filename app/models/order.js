@@ -17,4 +17,5 @@ const orderSchema = new Schema({
     status: {type:String, default:'order_placed'}
 },{timestamps:true})
 
+
 module.exports = mongoose.model('Order',orderSchema);
