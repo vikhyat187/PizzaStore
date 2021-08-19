@@ -2,6 +2,9 @@ import axios from 'axios';
 import Noty from 'noty';
 import mojs from '@mojs/core';
 import {initAdmin} from './admin'
+import moment from 'moment'
+// socket
+let socket = io()
 
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.querySelector('#cartCounter');
@@ -185,4 +188,65 @@ if (alertMsg){
     },2000)
 }
 
-initAdmin();
+initAdmin(socket);
+let hiddenInput = document.querySelector('#hiddenInput');
+let order = hiddenInput ? hiddenInput.value:null;
+order = JSON.parse(order)
+let statuses = document.querySelectorAll('.status_line')
+let time = document.createElement('small')
+
+//change order status
+function updateStatus(order){
+    statuses.forEach((status)=>{
+        status.classList.remove('stepCompleted')
+        status.classList.remove('current')
+    })
+
+    let stepCompleted = true;
+    statuses.forEach((status)=>{
+        let dataProp = status.dataset.status
+        if (stepCompleted){
+            status.classList.add('stepCompleted')
+        }
+
+        if (dataProp === order.status){
+            stepCompleted=false
+            time.innerText = moment(order.updatedAt).format('hh:mm A')
+            status.appendChild(time)
+            if (status.nextElementSibling){
+                status.nextElementSibling.classList.add('current');
+            }
+
+        }
+    })
+}
+
+updateStatus(order);
+
+
+//join
+if (order){
+    socket.emit('join',`order_${order._id}`)
+}
+let adminAreaPath= window.location.pathname
+console.log(adminAreaPath)
+
+if (adminAreaPath.includes('admin')){
+    socket.emit('join','adminRoom')
+}
+
+socket.on('orderUpdated',(data)=>{
+    const updatedOrder = {...order}
+    updatedOrder.updatedAt=moment().format()
+    updatedOrder.status=data.status
+    updateStatus(updatedOrder)
+    new Noty({
+        theme:'relax',
+        text:'Order Updated 😊',
+        type:'success',
+        timeout:2000,
+        progressBar:false,
+        layout:'topRight'
+    }).show();
+    console.log(data)
+})

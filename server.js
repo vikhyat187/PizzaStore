@@ -11,6 +11,8 @@ const flash = require('express-flash');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const { urlencoded } = require('express');//used to read data which comes encoded in the url
+const Emitter = require('events')
+
 
 //Database connection
 mongoose.connect(process.env.MONGO_CONNECTION_URL,{useNewUrlParser:true,useUnifiedTopology:true,useCreateIndex:true,useFindAndModify:true});
@@ -20,8 +22,9 @@ connection.once('open',()=>{
 }).catch(err=>{
     console.log("connection failed");
 });
-
-
+//Event emmitter
+const eventEmitter = new Emitter()
+app.set('eventEmitter',eventEmitter)
 //session config
 // session acts as middleware so we have to set it
 app.use(session({
@@ -68,6 +71,25 @@ require("./routes/web.js")(app);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT,()=>{
+const server = app.listen(PORT,()=>{
     console.log(`Server started at PORT ${PORT}`);
+})
+
+const io = require('socket.io')(server)
+io.on('connection',(socket)=>{
+    console.log(socket.id)
+    socket.on('join',(roomName)=>{
+        console.log(roomName)
+        socket.join(roomName)
+    })
+})
+
+eventEmitter.on('orderUpdated',(data)=>{
+    io.to(`order_${data.id}`).emit('orderUpdated',data)
+})
+
+eventEmitter.on('orderPlaced',(result)=>{
+    console.log('order recieved')
+    io.to('adminRoom').emit('orderPlaced',result)
+    console.log('order sent')
 })

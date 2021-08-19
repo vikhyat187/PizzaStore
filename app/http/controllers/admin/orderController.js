@@ -11,7 +11,7 @@ function orderController(){
                 return res.render('admin/orders');
            });
 
-        }
+        },
+     
     }
-}
-module.exports = orderController;
+}module.exports = orderController;

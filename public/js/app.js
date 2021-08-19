@@ -1866,10 +1866,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mojs_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mojs/core */ "./node_modules/@mojs/core/dist/mo.umd.js");
+/* harmony import */ var _mojs_core__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mojs_core__WEBPACK_IMPORTED_MODULE_3__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-function initAdmin() {
+
+
+function initAdmin(socket) {
   var orderTableBody = document.querySelector('#orderTableBody');
   var orders = [];
   var markup;
@@ -1897,6 +1902,109 @@ function initAdmin() {
       return "\n                <tr>\n                <td class=\"border px-4 py-2 text-green-900\">\n                    <p>".concat(order._id, "</p>\n                    <div>").concat(renderItems(order.items), "</div>\n                </td>\n                <td class=\"border px-4 py-2\">").concat(order.customerId != null ? order.customerId.name : "", "</td>\n                <td class=\"border px-4 py-2\">").concat(order.address, "</td>\n                <td class=\"border px-4 py-2\">\n                    <div class=\"inline-block relative w-64\">\n                        <form action=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\">\n                            <select name=\"status\" onchange=\"this.form.submit()\"\n                                class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\"\n                                    ").concat(order.status === 'order_placed' ? 'selected' : '', ">\n                                    Placed</option>\n                                <option value=\"confirmed\" ").concat(order.status === 'confirmed' ? 'selected' : '', ">\n                                    Confirmed</option>\n                                <option value=\"prepared\" ").concat(order.status === 'prepared' ? 'selected' : '', ">\n                                    Prepared</option>\n                                <option value=\"delivered\" ").concat(order.status === 'delivered' ? 'selected' : '', ">\n                                    Delivered\n                                </option>\n                                <option value=\"completed\" ").concat(order.status === 'completed' ? 'selected' : '', ">\n                                    Completed\n                                </option>\n                            </select>\n                        </form>\n                        <div\n                            class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\"\n                                viewBox=\"0 0 20 20\">\n                                <path\n                                    d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\" />\n                            </svg>\n                        </div>\n                    </div>\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(order.createdAt).format('hh:mm A'), "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(order.paymentStatus ? 'paid' : 'Not paid', "\n                </td>\n            </tr>\n        ");
     }).join('');
   }
+
+  socket.on('orderPlaced', function (order) {
+    new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+      theme: 'relax',
+      text: 'New Order 😊',
+      type: 'success',
+      timeout: 2000,
+      progressBar: false,
+      layout: 'topRight',
+      animation: {
+        open: function open(promise) {
+          var n = this;
+          var Timeline = new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Timeline)();
+          var body = new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Html)({
+            el: n.barDom,
+            x: {
+              500: 0,
+              delay: 0,
+              duration: 500,
+              easing: 'elastic.out'
+            },
+            isForce3d: true,
+            onComplete: function onComplete() {
+              promise(function (resolve) {
+                resolve();
+              });
+            }
+          });
+          var parent = new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Shape)({
+            parent: n.barDom,
+            width: 200,
+            height: n.barDom.getBoundingClientRect().height,
+            radius: 0,
+            x: _defineProperty({}, 150, -150),
+            duration: 1.2 * 500,
+            isShowStart: true
+          });
+          var burst = new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Burst)({
+            parent: parent.el,
+            count: 10,
+            top: n.barDom.getBoundingClientRect().height + 75,
+            degree: 90,
+            radius: 75,
+            angle: _defineProperty({}, -90, 40),
+            children: {
+              fill: '#EBD761',
+              delay: 'stagger(500, -50)',
+              radius: 'rand(8, 25)',
+              direction: -1,
+              isSwirl: true
+            }
+          });
+          var fadeBurst = new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Burst)({
+            parent: parent.el,
+            count: 2,
+            degree: 0,
+            angle: 75,
+            radius: {
+              0: 100
+            },
+            top: '90%',
+            children: {
+              fill: '#EBD761',
+              pathScale: [.65, 1],
+              radius: 'rand(12, 15)',
+              direction: [-1, 1],
+              delay: .8 * 500,
+              isSwirl: true
+            }
+          });
+          Timeline.add(body, burst, fadeBurst, parent);
+          Timeline.play();
+        },
+        close: function close(promise) {
+          var n = this;
+          new (_mojs_core__WEBPACK_IMPORTED_MODULE_3___default().Html)({
+            el: n.barDom,
+            x: {
+              0: 500,
+              delay: 10,
+              duration: 500,
+              easing: 'cubic.out'
+            },
+            skewY: {
+              0: 10,
+              delay: 10,
+              duration: 500,
+              easing: 'cubic.out'
+            },
+            isForce3d: true,
+            onComplete: function onComplete() {
+              promise(function (resolve) {
+                resolve();
+              });
+            }
+          }).play();
+        }
+      }
+    }).show();
+    orders.unshift(order);
+    orderTableBody.innerHTML = "";
+    orderTableBody.innerHTML = generateMarkup(orders);
+  });
 }
 
 /***/ }),
@@ -1916,12 +2024,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mojs_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mojs/core */ "./node_modules/@mojs/core/dist/mo.umd.js");
 /* harmony import */ var _mojs_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mojs_core__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
 
+ // socket
+
+var socket = io();
 var addToCart = document.querySelectorAll('.add-to-cart');
 var cartCounter = document.querySelector('#cartCounter');
 console.log(cartCounter);
@@ -2143,7 +2260,67 @@ if (alertMsg) {
   }, 2000);
 }
 
-(0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)();
+(0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)(socket);
+var hiddenInput = document.querySelector('#hiddenInput');
+var order = hiddenInput ? hiddenInput.value : null;
+order = JSON.parse(order);
+var statuses = document.querySelectorAll('.status_line');
+var time = document.createElement('small'); //change order status
+
+function updateStatus(order) {
+  statuses.forEach(function (status) {
+    status.classList.remove('stepCompleted');
+    status.classList.remove('current');
+  });
+  var stepCompleted = true;
+  statuses.forEach(function (status) {
+    var dataProp = status.dataset.status;
+
+    if (stepCompleted) {
+      status.classList.add('stepCompleted');
+    }
+
+    if (dataProp === order.status) {
+      stepCompleted = false;
+      time.innerText = moment__WEBPACK_IMPORTED_MODULE_4___default()(order.updatedAt).format('hh:mm A');
+      status.appendChild(time);
+
+      if (status.nextElementSibling) {
+        status.nextElementSibling.classList.add('current');
+      }
+    }
+  });
+}
+
+updateStatus(order); //join
+
+if (order) {
+  socket.emit('join', "order_".concat(order._id));
+}
+
+var adminAreaPath = window.location.pathname;
+console.log(adminAreaPath);
+
+if (adminAreaPath.includes('admin')) {
+  socket.emit('join', 'adminRoom');
+}
+
+socket.on('orderUpdated', function (data) {
+  var updatedOrder = _objectSpread({}, order);
+
+  updatedOrder.updatedAt = moment__WEBPACK_IMPORTED_MODULE_4___default()().format();
+  updatedOrder.status = data.status;
+  updateStatus(updatedOrder);
+  new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
+    theme: 'relax',
+    text: 'Order Updated 😊',
+    type: 'success',
+    timeout: 2000,
+    progressBar: false,
+    layout: 'topRight'
+  }).show();
+  console.log(data);
+});
 
 /***/ }),
 

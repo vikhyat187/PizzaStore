@@ -35,3 +35,11 @@
 [multiple middlewares in express](https://stackoverflow.com/questions/52540548/express-can-i-use-multiple-middleware-in-a-single-app-use/52540614)
 
 [invalidating cache](https://stackoverflow.com/questions/49547/how-do-we-control-web-page-caching-across-all-browsers)
+
+[update one](https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/)
+
+[comparing objects mongoose](https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings)
+
+[Route.get() requires callback functions but got a “object Undefined”](https://stackoverflow.com/questions/36558909/route-get-requires-callback-functions-but-got-a-object-undefined)
+
+[sending data in json format](https://stackoverflow.com/questions/6910799/pass-an-javascript-object-to-a-hidden-input-field-and-catch-it-as-an-array-obje)
