@@ -68,6 +68,9 @@ app.set('view engine','ejs');
 // Imp the routes should come after this view engine or else it will not render the site
 
 require("./routes/web.js")(app);
+app.use((req,res)=>{
+    res.status(404).render('errors/404')
+});
 
 const PORT = process.env.PORT || 3000;
 

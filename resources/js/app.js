@@ -8,7 +8,7 @@ let socket = io()
 
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.querySelector('#cartCounter');
-console.log(cartCounter);
+
 function updatecart(pizza ){
     axios.post('/update-cart',pizza).then(res =>{
         cartCounter.innerText=res.data.totalQty;
@@ -188,7 +188,7 @@ if (alertMsg){
     },2000)
 }
 
-initAdmin(socket);
+
 let hiddenInput = document.querySelector('#hiddenInput');
 let order = hiddenInput ? hiddenInput.value:null;
 order = JSON.parse(order)
@@ -229,9 +229,10 @@ if (order){
     socket.emit('join',`order_${order._id}`)
 }
 let adminAreaPath= window.location.pathname
-console.log(adminAreaPath)
+
 
 if (adminAreaPath.includes('admin')){
+    initAdmin(socket);
     socket.emit('join','adminRoom')
 }
 
