@@ -3,6 +3,7 @@ import Noty from 'noty';
 import mojs from '@mojs/core';
 import {initAdmin} from './admin'
 import moment from 'moment'
+import { initStripe } from './stripe';
 // socket
 let socket = io()
 
@@ -223,7 +224,7 @@ function updateStatus(order){
 
 updateStatus(order);
 
-
+initStripe();
 //join
 if (order){
     socket.emit('join',`order_${order._id}`)

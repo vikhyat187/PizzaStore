@@ -43,3 +43,15 @@
 [Route.get() requires callback functions but got a “object Undefined”](https://stackoverflow.com/questions/36558909/route-get-requires-callback-functions-but-got-a-object-undefined)
 
 [sending data in json format](https://stackoverflow.com/questions/6910799/pass-an-javascript-object-to-a-hidden-input-field-and-catch-it-as-an-array-obje)
+
+https://codepen.io/Navedkhan012/pen/vrWQMY
+
+[payment widget stripe](https://stripe.com/en-in/payments/checkout)
+
+[element stripe js](https://stripe.com/docs/js/element)
+
+[destroy stripe element](https://stripe.com/docs/js/element/other_methods/destroy#:~:text=destroy(),re%2Dmounted%20to%20the%20DOM.)
+
+[remove cached version in git](https://stackoverflow.com/questions/1139762/ignore-files-that-have-already-been-committed-to-a-git-repository/1139797#1139797)
+
+[integreate stripe ](https://www.geeksforgeeks.org/how-to-integrate-stripe-payment-gateway-in-node-js/)
